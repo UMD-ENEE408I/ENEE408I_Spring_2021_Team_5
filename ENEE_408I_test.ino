@@ -192,8 +192,9 @@ void setup() {
   pinMode(FWD_R, OUTPUT);
   pinMode(PWM_R, OUTPUT);
 
-  leftVolt(50);
-  rightVolt(50);
+  // PWM controler
+  leftVolt(70);
+  rightVolt(52);
 }
 
 void loop() {
