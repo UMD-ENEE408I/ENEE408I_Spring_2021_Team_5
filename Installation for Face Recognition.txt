@@ -1,25 +1,25 @@
 Installation for face recognization
 
-sudo apt-get update
-sudo apt-get install cmake libopenblas-dev liblapack-dev libjpeg-dev
-cd Downloads
-cd ~/Downloads
-wget http://dlib.net/files/dlib-19.17.tar.bz2
-tar jxvf dlib-19.17.tar.bz2
-ls #you should found the dlib folder
-cd dlib-19.17
-gedit dlib/cuda/cudnn_dlibapi.cpp
+1.) sudo apt-get update
+2.) sudo apt-get install cmake libopenblas-dev liblapack-dev libjpeg-dev
+3.) cd Downloads
+4.) cd ~/Downloads
+5.) wget http://dlib.net/files/dlib-19.17.tar.bz2
+6.) tar jxvf dlib-19.17.tar.bz2
+7.) ls #you should found the dlib folder
+8.) cd dlib-19.17
+9.) gedit dlib/cuda/cudnn_dlibapi.cpp
 
 Now a box will pop up. Find 'forward_algo = forward best algo' in the search bar in command it out using //. Then save it.
 
-cd ~/Downloads
-ls
-cd dlib-19.17
-ls
-sudo python3 setup.py install
+10.) cd ~/Downloads
+11.) ls
+12.) cd dlib-19.17
+13.) ls
+14.) sudo python3 setup.py install
 
 This installation gonna take 30mins
 
-sudo pip3 install_recognition
-python3
-import face_recognition
+15.) sudo pip3 install_recognition
+16.) python3
+17.) import face_recognition
