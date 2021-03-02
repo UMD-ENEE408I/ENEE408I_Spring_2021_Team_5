@@ -20,6 +20,6 @@ Now a box will pop up. Find 'forward_algo = forward best algo' in the search bar
 
 This installation gonna take 30mins
 
-15.) sudo pip3 install_recognition
+15.) sudo pip3 install face_recognition
 16.) python3
 17.) import face_recognition
