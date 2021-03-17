@@ -198,9 +198,6 @@ void setup() {
 
 void loop() {
   getAllSensors();
-  wander();
-  
- 
   if (Serial.available()) {
     int incoming_serial = Serial.read();
     switch(incoming_serial){
