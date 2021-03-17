@@ -5,7 +5,7 @@ import serial
 
 app = Flask(__name__)
 ask = Ask(app, '/')
-'''
+
 ser = serial.Serial('/dev/ttyUSB0')
 
 @ask.intent('Wander')
@@ -31,7 +31,7 @@ def stop():
     ser.write(b's')
     speech_text = 'Stopping!'
     return statement(speech_text).simple_card('My Robot', speech_text)
- '''   
+
 @ask.intent('Picture')
 def take_a_picture():
     speech_text = 'Enter your name and type enter. Your picture will take in 6 seconds'
