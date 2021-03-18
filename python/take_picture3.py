@@ -17,7 +17,7 @@ cam1 = cv2.VideoCapture(camSet1)
 Encodings = []
 Names = []
 image_dir = '/home/lian/Desktop/pyPro/images/known'
-unknown_Names = []
+unknown_Names = sianpi
 def snapshot():
     image_file = '/home/lian/Desktop/pyPro/images/known/{}.jpg'.format(unknown_Names)
     cv2.imwrite(image_file, frame1)
