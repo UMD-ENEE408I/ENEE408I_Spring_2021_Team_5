@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, request
 from flask_ask import Ask, statement
 import time
 import serial
@@ -43,9 +43,9 @@ def stop():
    
 @ask.intent('Picture')
 def take_a_picture():
-    speech_text = 'Enter your name and type enter. Your picture will take in 5 seconds'
+    sianpi = request.args.get('sianpi')
     snap_pic.start()
-    return statement(speech_text).simple_card('My Robot', speech_text)
+    return 'Hello: {}, it is very nice to see you.'.format(sianpi)
 
 if __name__ == '__main__':
     app.run(port=8004, debug=True)
