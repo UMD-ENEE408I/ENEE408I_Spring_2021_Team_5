@@ -17,11 +17,10 @@ cam1 = cv2.VideoCapture(camSet1)
 Encodings = []
 Names = []
 image_dir = '/home/lian/Desktop/pyPro/images/known'
-unknown_Names = sianpi
+unknown_Names = input('Enter Your Name: ')
 def snapshot():
     image_file = '/home/lian/Desktop/pyPro/images/known/{}.jpg'.format(unknown_Names)
     cv2.imwrite(image_file, frame1)
-    time.sleep(1)
    
 snap_shot = threading.Thread(target=snapshot)
 
