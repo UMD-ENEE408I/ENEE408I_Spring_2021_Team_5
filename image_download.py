@@ -6,6 +6,7 @@ def download_web_image(url):
     urllib.request.urlretrieve(url, file_name)
 
 path = "/home/jszymkie/Desktop/PYPRO/images"
-name = "gil.jpeg"
+name = "gil.jp
+g"
 url = "https://github.com/UMD-ENEE408I/ENEE408I_Spring_2021_Team_5/blob/main/Image/" + name + "?raw=true"
 download_web_image(url)
