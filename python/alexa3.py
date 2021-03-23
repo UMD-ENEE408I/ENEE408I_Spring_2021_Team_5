@@ -28,7 +28,7 @@ def wander():
 def go_forward():
     ser.write(b'f')
     speech_text = 'Going forward'
-    return statement(speech_text)#.simple_card('My Robot', speech_text)
+    return statement(speech_text).simple_card('My Robot', speech_text)
 
 @ask.intent('Backward')
 def go_forward():
@@ -43,9 +43,9 @@ def stop():
    
 @ask.intent('Picture')
 def take_a_picture():
-    sianpi = request.args.get('sianpi')
+    speech_text = 'Please say your name and get closer to the camera to get a clear picture.'
     snap_pic.start()
-    return 'Hello: {}, it is very nice to see you.'.format(sianpi)
+    rreturn statement(speech_text).simple_card('My Robot', speech_text)
 
 if __name__ == '__main__':
     app.run(port=8004, debug=True)
