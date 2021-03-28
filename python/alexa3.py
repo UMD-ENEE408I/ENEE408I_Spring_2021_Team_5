@@ -45,7 +45,7 @@ def stop():
 def take_a_picture():
     speech_text = 'Please say your name and get closer to the camera to get a clear picture.'
     snap_pic.start()
-    rreturn statement(speech_text).simple_card('My Robot', speech_text)
+    return statement(speech_text).simple_card('My Robot', speech_text)
 
 if __name__ == '__main__':
     app.run(port=8004, debug=True)
