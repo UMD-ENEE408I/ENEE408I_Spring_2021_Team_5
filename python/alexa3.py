@@ -40,6 +40,7 @@ def go_forward():
 def stop():
     ser.write(b's')
     speech_text = 'Stopping!'
+    return statement(speech_text).simple_card('My Robot', speech_text)
    
 @ask.intent('Picture')
 def take_a_picture():
