@@ -38,25 +38,6 @@ def trainName():
     with concurrent.futures.ThreadPoolExecutor() as executor:
         executor.map(record_images, files)
 
-def speech_to_text():
-    r = sr.Recognizer()
-    with sr.Microphone() as source:
-
-        print('Enter Your Speech:')
-        r.adjust_for_ambient_noise(source, duration = 0.1)
-        #r.adjust_for_ambient_noise(source)
-        #audio = r.listen(source)
-        audio = r.listen(source, phrase_time_limit=3)
-    
-        try:
-            unknown_Names = r.recognize_google(audio)
-            print('You said: {}'.format(unknown_Names))
-
-        except:
-            print('Try again')
-speech_text = threading.Thread(target=speech_to_text)
-
-
 
 while True:
     _, frame1 = cam1.read()
