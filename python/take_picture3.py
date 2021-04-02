@@ -6,6 +6,8 @@ import time
 import pickle
 import threading
 import concurrent.futures
+import speech_recognition as sr
+import pyaudio
 
 width = 720
 height = 480
@@ -17,35 +19,8 @@ cam1 = cv2.VideoCapture(camSet1)
 Encodings = []
 Names = []
 image_dir = '/home/lian/Desktop/pyPro/images/known'
-unknown_Names = input('Enter Your Name: ')
-def snapshot():
-    image_file = '/home/lian/Desktop/pyPro/images/known/{}.jpg'.format(unknown_Names)
-    cv2.imwrite(image_file, frame1)
-   
-snap_shot = threading.Thread(target=snapshot)
 
-
-
-while True:
-    _, frame1 = cam1.read()
-
-    cv2.imshow('myCam1',frame1)
-    cv2.moveWindow('myCam1',900,0)
-	
-    k = cv2.waitKey(1)
-    
-    if cv2.waitKey(1) == ord('q'):    # If q is hit, the window will close
-        print("Close")
-        break
-
-    else: 
-        snap_shot.start()
-        break
-
-cam1.release()
-cv2.destroyAllWindows()   
-
-for root, dirs, files in os.walk(image_dir):
+def trainName():
     def record_images(file):
         fullPath = os.path.join(root,file)
         print(fullPath)
@@ -63,5 +38,75 @@ for root, dirs, files in os.walk(image_dir):
     with concurrent.futures.ThreadPoolExecutor() as executor:
         executor.map(record_images, files)
 
+def speech_to_text():
+    r = sr.Recognizer()
+    with sr.Microphone() as source:
 
+        print('Enter Your Speech:')
+        r.adjust_for_ambient_noise(source, duration = 0.1)
+        #r.adjust_for_ambient_noise(source)
+        #audio = r.listen(source)
+        audio = r.listen(source, phrase_time_limit=3)
+    
+        try:
+            unknown_Names = r.recognize_google(audio)
+            print('You said: {}'.format(unknown_Names))
+
+        except:
+            print('Try again')
+speech_text = threading.Thread(target=speech_to_text)
+
+
+
+while True:
+    _, frame1 = cam1.read()
+
+    cv2.imshow('myCam1',frame1)
+    cv2.moveWindow('myCam1',900,0)
 	
+    k = cv2.waitKey(1)
+    
+    if cv2.waitKey(1) == ord('q'):    # If q is hit, the window will close
+        print("Close")
+        break
+
+    else: 
+        r = sr.Recognizer()
+        with sr.Microphone() as source:
+
+            print('Enter Your Speech:')
+            r.adjust_for_ambient_noise(source, duration = 0.1)
+            #r.adjust_for_ambient_noise(source)
+            #audio = r.listen(source)
+            audio = r.listen(source, phrase_time_limit=3)
+    
+            try:
+                unknown_Names = r.recognize_google(audio)
+                print('You said: {}'.format(unknown_Names))
+                time.sleep(3)
+                image_file = '/home/lian/Desktop/pyPro/images/known/{}.jpg'.format(unknown_Names)
+                cv2.imwrite(image_file, frame1)
+        
+            except:
+                print('Try again')
+        break
+cam1.release()
+cv2.destroyAllWindows()   
+
+threads = []
+for root, dirs, files in os.walk(image_dir):
+    t = threading.Thread(target=trainName)
+    t.start()
+    threads.append(t)
+
+for thread in threads:
+    thread.join()
+
+'''
+with concurrent.futures.ThreadPoolExecutor() as exe:
+    #for root, dirs, files in os.walk(image_dir):
+    results = [exe.submit(trainName) for root, dirs, files in os.walk(image_dir)]
+    #print(results)
+    for f in concurrent.futures.as_completed(results):
+        print(f.result())
+'''
