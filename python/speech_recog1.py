@@ -1,4 +1,4 @@
-
+# sudo apt-get install portaudio19-dev python-all-dev python3-all-dev && sudo pip3 install pyaudio
 import speech_recognition as sr
 import pyaudio
 
