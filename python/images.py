@@ -1,5 +1,6 @@
 import os
 
+os.system("git pull")
 File = "(file name)"
 os.chdir("/home/(username)/ENEE408I_Spring_2021_Team_5")
 os.system("git status")
