@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask
 from flask_ask import Ask, statement
 import time
 import serial
@@ -31,12 +31,12 @@ def go_forward():
     return statement(speech_text).simple_card('My Robot', speech_text)
 
 @ask.intent('Backward')
-def go_forward():
+def go_backward():
     ser.write(b'b')
     speech_text = 'Going backward'
     return statement(speech_text).simple_card('My Robot', speech_text)
 
-@ask.intent('Hault')
+@ask.intent('Halt')
 def stop():
     ser.write(b's')
     speech_text = 'Stopping!'
