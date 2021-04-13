@@ -56,15 +56,15 @@ while True:
         with sr.Microphone() as source:
 
             print('Enter Your Speech:')
-            r.adjust_for_ambient_noise(source, duration = 0.1)
+            r.adjust_for_ambient_noise(source, duration = 0.2)
             #r.adjust_for_ambient_noise(source)
-            #audio = r.listen(source)
-            audio = r.listen(source, phrase_time_limit=3)
+            audio = r.listen(source)
+            #audio = r.listen(source, phrase_time_limit=3)
     
             try:
                 unknown_Names = r.recognize_google(audio)
                 print('You said: {}'.format(unknown_Names))
-                time.sleep(3)
+                #time.sleep(3)
                 image_file = '/home/lian/Desktop/pyPro/images/known/{}.jpg'.format(unknown_Names)
                 cv2.imwrite(image_file, frame1)
         
@@ -82,12 +82,3 @@ for root, dirs, files in os.walk(image_dir):
 
 for thread in threads:
     thread.join()
-
-'''
-with concurrent.futures.ThreadPoolExecutor() as exe:
-    #for root, dirs, files in os.walk(image_dir):
-    results = [exe.submit(trainName) for root, dirs, files in os.walk(image_dir)]
-    #print(results)
-    for f in concurrent.futures.as_completed(results):
-        print(f.result())
-'''
