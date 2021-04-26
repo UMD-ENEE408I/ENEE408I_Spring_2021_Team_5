@@ -56,7 +56,7 @@ def selfie():
     cv2.destroyAllWindows() 
 
     for root, dirs, files in os.walk(image_dir):
-        def record_images(file):
+        for file in files:
             fullPath = os.path.join(root,file)
             print(fullPath)
             name = os.path.splitext(file)[0]
@@ -70,5 +70,3 @@ def selfie():
             pickle.dump(Names, f)
             pickle.dump(Encodings, f)
         
-        with concurrent.futures.ThreadPoolExecutor() as executor:
-            executor.map(record_images, files)
