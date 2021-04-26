@@ -9,9 +9,8 @@ Encodings = []
 Names = []
 image_dir = '/home/lian/Desktop/pyPro/images/known'
 
-
 for root, dirs, files in os.walk(image_dir):
-    def record_images(file):
+    for file in files:
         fullPath = os.path.join(root,file)
         print(fullPath)
         name = os.path.splitext(file)[0]
@@ -25,5 +24,3 @@ for root, dirs, files in os.walk(image_dir):
         pickle.dump(Names, f)
         pickle.dump(Encodings, f)
         
-    with concurrent.futures.ThreadPoolExecutor() as executor:
-        executor.map(record_images, files)
