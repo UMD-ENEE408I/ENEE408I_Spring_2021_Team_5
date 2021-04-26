@@ -10,7 +10,7 @@ Names = []
 image_dir = '/home/lian/Desktop/pyPro/images/known'
 
 
-def trainName():
+for root, dirs, files in os.walk(image_dir):
     def record_images(file):
         fullPath = os.path.join(root,file)
         print(fullPath)
@@ -27,13 +27,3 @@ def trainName():
         
     with concurrent.futures.ThreadPoolExecutor() as executor:
         executor.map(record_images, files)
-
-
-threads = []
-for root, dirs, files in os.walk(image_dir):
-    t = threading.Thread(target=trainName)
-    t.start()
-    threads.append(t)
-
-for thread in threads:
-    thread.join()
