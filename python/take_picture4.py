@@ -13,7 +13,8 @@ def selfie():
 
     Encodings = []
     Names = []
-    image_dir = '/home/lian/Desktop/pyPro/images/known'
+    initial = os.getcwd()
+    image_dir = initial + "/Image"
     width = 720
     height = 480
     flip = 0
@@ -47,7 +48,7 @@ def selfie():
                     unknown_Names = r.recognize_google(audio)
                     print('You said: {}'.format(unknown_Names))
                     #time.sleep(3)
-                    image_file = '/home/lian/Desktop/pyPro/images/known/{}.jpg'.format(unknown_Names)
+                    image_file = image_dir + "/{}.jpg".format(unknown_Names)
                     cv2.imwrite(image_file, frame1)
                 except:
                     print("Try again")      
