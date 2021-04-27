@@ -7,7 +7,8 @@ import concurrent.futures
 
 Encodings = []
 Names = []
-image_dir = '/home/lian/Desktop/pyPro/images/known'
+initial = os.getcwd()
+image_dir = initial + "/Image"
 
 for root, dirs, files in os.walk(image_dir):
     for file in files:
