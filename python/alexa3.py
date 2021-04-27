@@ -37,7 +37,7 @@ def go_forward():
     speech_text = 'Going backward'
     return statement(speech_text).simple_card('My Robot', speech_text)
 
-@ask.intent('Stop')
+@ask.intent('Halt')
 def stop():
     ser.write(b's')
     speech_text = 'Stopping!'
