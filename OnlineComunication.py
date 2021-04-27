@@ -5,4 +5,3 @@ os.system("git status")
 #os.system("git commit -m image")
 #os.system("git push")
 os.system("git pull")
-
