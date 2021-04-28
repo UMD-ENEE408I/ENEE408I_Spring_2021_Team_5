@@ -11,11 +11,11 @@ ser = serial.Serial('/dev/ttyUSB0')
 print(cv2.__version__)
 timeMark = time.time()
 dtFIL = 0
-scaleFactor = .33
+scaleFactor = .5
 
 width = 720
 height = 480
-flip = 0
+flip = 2
 font = cv2.FONT_HERSHEY_SIMPLEX
 
 Encodings = []
@@ -59,12 +59,14 @@ while True:
                 ser.write(b'l')
             if abs(errorX)> right:
                 ser.write(b'r')
-            if abs(errorX)<15:
+            if abs(errorX)>15:
                 ser.write(b'f')
-            if abs(errorX)>20:
-                ser.write(b'b')
-                time.sleep(1)
+            else:
                 ser.write(b's')
+            #if abs(errorX)>20:
+             #   ser.write(b'b')
+              #  time.sleep(1)
+               # ser.write(b's')
             
         top = int(top/scaleFactor)
         right = int(right/scaleFactor)
