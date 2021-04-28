@@ -57,7 +57,7 @@ while True:
             errorX = objX - width/2
             if abs(errorX)>left:
                 ser.write(b'l')
-            if abs(errorTilt0)> right:
+            if abs(errorX)> right:
                 ser.write(b'r')
             if abs(errorX)<15:
                 ser.write(b'f')
