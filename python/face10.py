@@ -11,11 +11,12 @@ ser = serial.Serial('/dev/ttyUSB0')
 print(cv2.__version__)
 timeMark = time.time()
 dtFIL = 0
-scaleFactor = .5
+scaleFactor = .8
+#a = 100
 
 width = 720
 height = 480
-flip = 2
+flip = 0
 font = cv2.FONT_HERSHEY_SIMPLEX
 
 Encodings = []
@@ -50,47 +51,47 @@ while True:
         name1 = 'Unknown'
         matches = face_recognition.compare_faces(Encodings, face_encoding0)
         if True in matches:
-        #unknownfaceFound = False
             first_match_index = matches.index(True)
             name1 = Names[first_match_index]
-            objX = left+right/2
-            errorX = objX - width/2
-            if abs(errorX)>left:
-                ser.write(b'l')
-            if abs(errorX)> right:
-                ser.write(b'r')
-            if abs(errorX)>15:
-                ser.write(b'f')
-            else:
-                ser.write(b's')
-            #if abs(errorX)>20:
-             #   ser.write(b'b')
-              #  time.sleep(1)
-               # ser.write(b's')
-            
+                    
         top = int(top/scaleFactor)
         right = int(right/scaleFactor)
         bottom = int(bottom/scaleFactor)
         left = int(left/scaleFactor)
         cv2.rectangle(frame0,(left, top),(right, bottom), (255,0,0), 2)
         cv2.putText(frame0, name1, (left, top+0), font, .75, (0,0,255), 2 )
-        '''
-        if faceFound == True:
-            objX = left+right/2
-            errorX = objX - width/2
-            if abs(errorX)>left:
-                ser.write(b'l')
-            if abs(errorTilt0)> right:
-                ser.write(b'r')
-            if abs(errorX)<15:
-                ser.write(b'f')
-            if abs(errorX)>20:
-                ser.write(b'b')
-                time.sleep(1)
-                ser.write(b's')
-        '''    
+        
+        #area = cv2.rectangle(frame0,(left, top),(right, bottom), (255,0,0), 2)
+        try:
+            objY = (left+right)/2
+            errorY = objY - width/2
 
-    
+            ser.write(b'f')
+            time.sleep(1)
+            if abs(errorY)>100:
+                ser.write(b'f')
+                
+                if abs(errorY)>left:
+                    ser.write(b'l')
+                    time.sleep(0.5)
+                    ser.write(b'f')
+                    time.sleep(1.5)
+                else:
+                    ser.write(b'r')
+                    time.sleep(0.5)
+                    ser.write(b'f')
+                    time.sleep(1.5)
+                
+            else:
+                    ser.write(b's')
+                    break
+            if False in matches:
+                ser.write(b's')
+                break
+        except:
+            break
+        
+
     for (top, right, bottom, left), face_encoding1 in zip(facePositions1, allEncodings1):
         name2 = 'Unknown'
         matches = face_recognition.compare_faces(Encodings, face_encoding1)
@@ -104,23 +105,48 @@ while True:
         left = int(left/scaleFactor)
         cv2.rectangle(frame1,(left, top),(right, bottom), (255,0,0), 2)
         cv2.putText(frame1, name2, (left, top+0), font, .75, (0,0,255),2 )
-    
+        '''
+        try:
+            #objX = left/2 
+            objY = (left+right)/2
+            #errorX = objX - width/2
+            errorY = objY - width/2
+            ser.write(b'f')
+            if abs(errorY)>100:
+                ser.write(b'f')
+                
+                if abs(errorY)>left:
+                    ser.write(b'l')
+                    time.sleep(0.5)
+                    ser.write(b'f')
+                    time.sleep(1.5)
+                else:
+                    ser.write(b'r')
+                    time.sleep(0.5)
+                    ser.write(b'f')
+                    time.sleep(1.5)
+                
+            else:
+                    ser.write(b's')
+                    break
+            if False in matches:
+                ser.write(b's')
+                break
+        except:
+            break
+'''
     frame3 = np.hstack((frame0, frame1))
-    
     dt = time.time()-timeMark
+    fps = 1/dt
     timeMark = time.time()
-    
-    dtFIL = 0.9*dtFIL + 0.1*dt       # Low-pass filter
-    fps = 1/dtFIL
-    
+    dtFIL = 0.9*dtFIL + 0.1*fps       # Low-pass filter
     ### To show fps on the background      redcolor  solid box
     cv2.rectangle(frame3,(0,0), (150,40), (0,0,255), -1)
     cv2.putText(frame3, 'fps: '+str(round(fps,1)), (0, 30), font, 1, (0, 255, 255), 2)
-    #print('fps: ',fps)
     
     cv2.imshow('both_Cam',frame3)
     cv2.moveWindow('both_Cam',200,0)
-
+	
     if cv2.waitKey(1) == ord('q'):
         break
 	
