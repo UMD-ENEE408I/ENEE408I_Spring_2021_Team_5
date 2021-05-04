@@ -10,7 +10,7 @@ import pyaudio
 import threading
 import time
 def selfie():
-
+    os.system("git pull")
     Encodings = []
     Names = []
     initial = os.getcwd()
@@ -70,4 +70,5 @@ def selfie():
         with open('train.pkl', 'wb') as f:
             pickle.dump(Names, f)
             pickle.dump(Encodings, f)
+ 
         
