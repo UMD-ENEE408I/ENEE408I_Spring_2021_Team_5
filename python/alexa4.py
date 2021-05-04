@@ -63,8 +63,7 @@ def take_a_picture():
 def greet_Known():
     kgreet = threading.Thread(target=knownGreeting)
     kgreet.start()
-    #import face10
-    time.sleep(5)
+    time.sleep(8)
     speech_text = 'Hello {}, how are you? I am Lian autonomous robot. It is my pleasure to meet you'.format(name2)
     #speech_text = 'Please say your name'
     return statement(speech_text).simple_card('My Robot', speech_text)
@@ -74,6 +73,7 @@ def greet_unKnown():
     os.system("git pull")
     ugreet = threading.Thread(target=unknownGreeting)
     ugreet.start()
+    time.sleep(8)
     speech_text = 'Hello! Can I take a picture of you?'
     return question(speech_text).simple_card('My Robot', speech_text)
     
