@@ -24,14 +24,5 @@ for root, dirs, files in os.walk(image_dir):
     with open('train.pkl', 'wb') as f:
         pickle.dump(Names, f)
         pickle.dump(Encodings, f)
-os.system("git status")
-os.system("git add train.pkl")
-os.system("git status")
-os.system("git commit -m train")
-os.system("git push")
-os.system("git status")
-os.system("git add train.pkl")
-os.system("git status")
-os.system("git commit -m train")
-os.system("git push")
+
         
