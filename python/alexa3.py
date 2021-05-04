@@ -3,6 +3,7 @@ from flask_ask import Ask, statement
 import time
 import serial
 import threading
+import os
 import take_picture4
 app = Flask(__name__)
 ask = Ask(app, '/')
@@ -45,6 +46,7 @@ def stop():
    
 @ask.intent('Picture')
 def take_a_picture():
+    os.system("git pull")
     speech_text = 'Please say your name'
     snap_pic = threading.Thread(target=take_Pic)
     snap_pic.start()
@@ -53,3 +55,4 @@ def take_a_picture():
 
 if __name__ == '__main__':
     app.run(port=8005, debug=True)
+
