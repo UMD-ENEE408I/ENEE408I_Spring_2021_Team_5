@@ -71,6 +71,7 @@ def greet_Known():
     
 @ask.intent('Finding')
 def greet_unKnown():
+    os.system("git pull")
     ugreet = threading.Thread(target=unknownGreeting)
     ugreet.start()
     speech_text = 'Hello! Can I take a picture of you?'
