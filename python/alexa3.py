@@ -51,6 +51,12 @@ def take_a_picture():
     snap_pic = threading.Thread(target=take_Pic)
     snap_pic.start()
     return statement(speech_text).simple_card('My Robot', speech_text)
+
+@ask.intent('Update')
+def update_Intent():
+    os.system("git pull")
+    speech_text = 'Your robot is updated.'
+    return statement(speech_text).simple_card('My Robot', speech_text)
     
 
 if __name__ == '__main__':
