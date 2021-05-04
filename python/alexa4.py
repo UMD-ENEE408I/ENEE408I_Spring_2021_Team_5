@@ -55,7 +55,9 @@ def stop():
 def take_a_picture():
     speech_text = 'Please say your name'
     snap_pic = threading.Thread(target=take_Pic)
+    
     snap_pic.start()
+    
     return statement(speech_text).simple_card('My Robot', speech_text)
     
 @ask.intent('Greeting')
