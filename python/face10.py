@@ -47,7 +47,7 @@ while True:
         matches = face_recognition.compare_faces(Encodings, face_encoding0)
         if True in matches:
             first_match_index = matches.index(True)
-            name1 = Names[first_match_index]
+            name2 = Names[first_match_index]
                     
         top = int(top/scaleFactor)
         right = int(right/scaleFactor)
