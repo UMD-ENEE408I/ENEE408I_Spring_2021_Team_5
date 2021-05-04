@@ -77,4 +77,11 @@ def selfie():
     os.system("git status")
     os.system("git commit -m image")
     os.system("git push")
+    os.system("git status")
+    os.system("git add train.pkl")
+    os.system("git status")
+    os.system("git commit -m train")
+    os.system("git push")
+
+
         
