@@ -6,13 +6,14 @@ import os
 import time
 import serial
 print(cv2.__version__)
-
+ser = serial.Serial('/dev/ttyUSB0')
 def known_Greeting():
-    ser = serial.Serial('/dev/ttyUSB0')
+    #ser = serial.Serial('/dev/ttyUSB0')
     timeMark = time.time()
     dtFIL = 0
     scaleFactor = .6
-
+    reset_Timer = 10
+    print('--------------------')
     width = 720
     height = 480
     flip = 0
@@ -26,13 +27,23 @@ def known_Greeting():
     
 
     camSet0 = 'nvarguscamerasrc sensor-id=1 ee-mode=2 ee-strength=0 tnr-mode=2 tnr-strength=1 wbmode=3 ! video/x-raw(memory:NVMM), width=3264, height=2464, framerate=21/1,format=NV12 ! nvvidconv flip-method='+str(flip)+' ! video/x-raw, width='+str(width)+', height='+str(height)+', format=BGRx ! videoconvert ! video/x-raw, format=BGR ! videobalance contrast=1.5 saturation=1.2 ! appsink drop=True'
-    #camSet1 = 'nvarguscamerasrc sensor-id=0 ee-mode=2 ee-strength=0 tnr-mode=2 tnr-strength=1 wbmode=3 ! video/x-raw(memory:NVMM), width=3264, height=2464, framerate=21/1,format=NV12 ! nvvidconv flip-method='+str(flip)+' ! video/x-raw, width='+str(width)+', height='+str(height)+', format=BGRx ! videoconvert ! video/x-raw, format=BGR ! videobalance contrast=1.5 saturation=1.2 ! appsink drop=True'
+    camSet1 = 'nvarguscamerasrc sensor-id=0 ee-mode=2 ee-strength=0 tnr-mode=2 tnr-strength=1 wbmode=3 ! video/x-raw(memory:NVMM), width=3264, height=2464, framerate=21/1,format=NV12 ! nvvidconv flip-method='+str(flip)+' ! video/x-raw, width='+str(width)+', height='+str(height)+', format=BGRx ! videoconvert ! video/x-raw, format=BGR ! videobalance contrast=1.5 saturation=1.2 ! appsink drop=True'
 	
     cam0 = cv2.VideoCapture(camSet0)
-    #cam1 = cv2.VideoCapture(camSet1)
+    cam1 = cv2.VideoCapture(camSet1)
+    def countdown():
+        global reset_Timer
+        while reset_Timer > 0:
+            print('T-minus', reset_Timer)
+            time.sleep(1)
+            reset_Timer -= 1
+        
+    count = threading.Thread(target=countdown)
+    count.start()
 
-    while True:
+    while reset_Timer>0:
         _, frame0 = cam0.read()
+        _, frame1 = cam1.read()
         frameSmall0 = cv2.resize(frame0,(0,0), fx=scaleFactor, fy=scaleFactor)#smaller scale will faster the detection but it needs bigger face to reconize it.
         
         facePositions0 = face_recognition.face_locations(frameSmall0)
@@ -41,6 +52,7 @@ def known_Greeting():
     
         for (top, right, bottom, left), face_encoding0 in zip(facePositions0, allEncodings0):
             name1 = 'Unknown'
+            reset_Timer = 10
             matches = face_recognition.compare_faces(Encodings, face_encoding0)
             if True in matches:
                 first_match_index = matches.index(True)
@@ -53,37 +65,31 @@ def known_Greeting():
             cv2.rectangle(frame0,(left, top),(right, bottom), (255,0,0), 2)
             cv2.putText(frame0, name1, (left, top+0), font, .75, (0,0,255), 2 )
         
-            #area = cv2.rectangle(frame0,(left, top),(right, bottom), (255,0,0), 2)
-            if False in matches:
-                objY = (left+right)/2
-                errorY = objY - width/2
+            if name1 == 'Unknown':
+            objY = abs(left+right)/2
+            errorY = objY - width/2
 
-                ser.write(b'f')
-                time.sleep(1)
-                if abs(errorY)>100:
-                    ser.write(b'f')
-                
-                    if abs(errorY)>left:
-                        ser.write(b'l')
-                        time.sleep(0.5)
-                        ser.write(b'f')
-                        time.sleep(1.5)
-                    else:
-                        ser.write(b'r')
-                        time.sleep(0.5)
-                        ser.write(b'f')
-                        time.sleep(1.5)
-                
-                else:
-                    ser.write(b's')
-                    break
-                if False in matches:
-                    ser.write(b's')
-                    break
-            except:
+            print(left)
+            print(right)
+            print(errorY)
+                     
+            if errorY<-50:
+                ser.write(b'l')
+                print('llllllllllllllllll')
                 break
+
+            elif errorY>50:
+                ser.write(b'r')
+                print('rrrrrrrrrrrrrrrrrrrr')
+                break
+                
+            else:
+                ser.write(b'f')
+                print('middleeeeeeeeeeeeeeeee')
+                break
+            
         
-        frame3 = np.hstack(frame0)
+        frame3 = np.hstack((frame0, frame1))
         dt = time.time()-timeMark
         fps = 1/dt
         timeMark = time.time()
@@ -98,5 +104,5 @@ def known_Greeting():
         if cv2.waitKey(1) == ord('q'):
             break
 	
-    cam0.release()
+    both_Cam.release()
     cv2.destroyAllWindows()
