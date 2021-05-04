@@ -9,7 +9,7 @@ import speech_recognition as sr
 import pyaudio
 import threading
 import time
-os.system("git pull")
+#os.system("git pull")
 def selfie():
 
     Encodings = []
