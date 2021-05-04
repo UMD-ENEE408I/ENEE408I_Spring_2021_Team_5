@@ -5,8 +5,7 @@ import serial
 import threading
 import take_picture4
 import face11
-import face12
-import os
+#import face12
 app = Flask(__name__)
 ask = Ask(app, '/')
 
@@ -15,7 +14,6 @@ ser = serial.Serial('/dev/ttyUSB0')
 def take_Pic():
     time.sleep(3)
     take_picture4.selfie()
-    #print(take_Pic)
     
 def knownGreeting():
     face11.known_Greeting()
@@ -54,8 +52,7 @@ def stop():
    
 @ask.intent('Picture')
 def take_a_picture():
-    speech_text = 'Please say your name'
-    os.system("git pull")
+    speech_text = 'Please say your name and please get closer to the camera for clear picture'
     snap_pic = threading.Thread(target=take_Pic)
     snap_pic.start()
     return statement(speech_text).simple_card('My Robot', speech_text)
@@ -64,7 +61,10 @@ def take_a_picture():
 def greet_Known():
     kgreet = threading.Thread(target=knownGreeting)
     kgreet.start()
-    speech_text = 'Hello {}, it is my pleasure to meet you'.format(name1)
+    #import face10
+    time.sleep(5)
+    speech_text = 'Hello, how are you? I am Lian autonomous robot. It is my pleasure to meet you'
+    #speech_text = 'Please say your name'
     return statement(speech_text).simple_card('My Robot', speech_text)
     
 @ask.intent('Finding')
@@ -77,7 +77,6 @@ def greet_unKnown():
 @ask.intent('YesIntent')
 def yes_Intent():
     speech_text = 'Please say your name and please get closer to the camera for clear picture'
-    os.system("git pull")
     snap_pic = threading.Thread(target=take_Pic)
     snap_pic.start()
     return statement(speech_text).simple_card('My Robot', speech_text)
@@ -90,4 +89,4 @@ def no_Intent():
     
 
 if __name__ == '__main__':
-    app.run(port=8005, debug=True)
+    app.run(port=8005, debug=False)
