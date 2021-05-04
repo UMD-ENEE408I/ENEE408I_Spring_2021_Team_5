@@ -10,11 +10,10 @@ import pyaudio
 import threading
 import time
 def selfie():
-    os.system("git pull")
+
     Encodings = []
     Names = []
-    initial = os.getcwd()
-    image_dir = initial + "/Image"
+    image_dir = '/home/lian/Desktop/pyPro/images/known'
     width = 720
     height = 480
     flip = 0
@@ -48,7 +47,7 @@ def selfie():
                     unknown_Names = r.recognize_google(audio)
                     print('You said: {}'.format(unknown_Names))
                     #time.sleep(3)
-                    image_file = image_dir + "/{}.jpg".format(unknown_Names)
+                    image_file = '/home/lian/Desktop/pyPro/images/known/{}.jpg'.format(unknown_Names)
                     cv2.imwrite(image_file, frame1)
                 except:
                     print("Try again")      
@@ -70,5 +69,10 @@ def selfie():
         with open('train.pkl', 'wb') as f:
             pickle.dump(Names, f)
             pickle.dump(Encodings, f)
- 
+
+    os.system("git status")
+    os.system("git add Image")
+    os.system("git status")
+    os.system("git commit -m image")
+    os.system("git push")
         
