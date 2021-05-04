@@ -49,7 +49,7 @@ def selfie():
                     unknown_Names = r.recognize_google(audio)
                     print('You said: {}'.format(unknown_Names))
                     #time.sleep(3)
-                    image_file = image_dir + '{}.jpg'.format(unknown_Names)
+                    image_file = image_dir + '/{}.jpg'.format(unknown_Names)
                     cv2.imwrite(image_file, frame1)
                 except:
                     print("Try again")      
