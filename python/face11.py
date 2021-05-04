@@ -4,15 +4,16 @@ import face_recognition
 import pickle
 import os
 import time
+import threading
 import serial
 print(cv2.__version__)
 ser = serial.Serial('/dev/ttyUSB0')
-
 def known_Greeting():
     #ser = serial.Serial('/dev/ttyUSB0')
     timeMark = time.time()
     dtFIL = 0
     scaleFactor = .6
+    reset_Timer = 10
     print('--------------------')
     width = 720
     height = 480
