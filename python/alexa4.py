@@ -6,6 +6,7 @@ import threading
 import take_picture4
 import face11
 import face12
+import os
 app = Flask(__name__)
 ask = Ask(app, '/')
 
@@ -54,10 +55,9 @@ def stop():
 @ask.intent('Picture')
 def take_a_picture():
     speech_text = 'Please say your name'
+    os.system("git pull")
     snap_pic = threading.Thread(target=take_Pic)
-    
     snap_pic.start()
-    
     return statement(speech_text).simple_card('My Robot', speech_text)
     
 @ask.intent('Greeting')
@@ -77,6 +77,7 @@ def greet_unKnown():
 @ask.intent('YesIntent')
 def yes_Intent():
     speech_text = 'Please say your name and please get closer to the camera for clear picture'
+    os.system("git pull")
     snap_pic = threading.Thread(target=take_Pic)
     snap_pic.start()
     return statement(speech_text).simple_card('My Robot', speech_text)
