@@ -63,7 +63,7 @@ def greet_Known():
     kgreet.start()
     #import face10
     time.sleep(5)
-    speech_text = 'Hello, how are you? I am Lian autonomous robot. It is my pleasure to meet you'
+    speech_text = 'Hello {}, how are you? I am Lian autonomous robot. It is my pleasure to meet you'.format(name2)
     #speech_text = 'Please say your name'
     return statement(speech_text).simple_card('My Robot', speech_text)
     
