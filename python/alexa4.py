@@ -3,6 +3,7 @@ from flask_ask import Ask, statement, question
 import time
 import serial
 import threading
+import os
 import take_picture4
 import face11
 #import face12
@@ -52,6 +53,7 @@ def stop():
    
 @ask.intent('Picture')
 def take_a_picture():
+    os.system("git pull")
     speech_text = 'Please say your name and please get closer to the camera for clear picture'
     snap_pic = threading.Thread(target=take_Pic)
     snap_pic.start()
@@ -76,6 +78,7 @@ def greet_unKnown():
     
 @ask.intent('YesIntent')
 def yes_Intent():
+    os.system("git pull")
     speech_text = 'Please say your name and please get closer to the camera for clear picture'
     snap_pic = threading.Thread(target=take_Pic)
     snap_pic.start()
@@ -84,9 +87,13 @@ def yes_Intent():
 @ask.intent('NoIntent')
 def no_Intent():
     speech_text = 'Thank you for your answer. It is my pleasure to talk with you. See you around'
-    
     return statement(speech_text).simple_card('My Robot', speech_text)
-    
+
+@ask.intent('Update')
+def update_Intent():
+    os.system("git pull")
+    speech_text = 'Your robot is updated.'
+    return statement(speech_text).simple_card('My Robot', speech_text)
 
 if __name__ == '__main__':
     app.run(port=8005, debug=False)
