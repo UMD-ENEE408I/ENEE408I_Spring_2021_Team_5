@@ -4,10 +4,11 @@ import face_recognition
 import pickle
 import os
 import time
+import threading
 import serial
 print(cv2.__version__)
 ser = serial.Serial('/dev/ttyUSB0')
-def known_Greeting():
+def unknown_Greeting():
     #ser = serial.Serial('/dev/ttyUSB0')
     timeMark = time.time()
     dtFIL = 0
@@ -66,12 +67,12 @@ def known_Greeting():
             cv2.putText(frame0, name1, (left, top+0), font, .75, (0,0,255), 2 )
         
             if name1 == 'Unknown':
-            objY = abs(left+right)/2
-            errorY = objY - width/2
+                objY = abs(left+right)/2
+                errorY = objY - width/2
 
-            print(left)
-            print(right)
-            print(errorY)
+                print(left)
+                print(right)
+                print(errorY)
                      
             if errorY<-50:
                 ser.write(b'l')
