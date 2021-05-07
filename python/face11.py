@@ -8,17 +8,21 @@ import os
 import time
 import serial
 import threading
-
-print(cv2.__version__)
 #reset_Timer = 8
 
+# def countdown():
+#     global reset_Timer
+#     while reset_Timer > 0:
+#         print('T-minus', reset_Timer)
+#         time.sleep(1)
+#         reset_Timer -= 1
+
 def known_Greeting():
+    reset_Timer = 8
     ser = serial.Serial('/dev/ttyUSB0')
     timeMark = time.time()
     dtFIL = 0
     scaleFactor = .5
-    
-    reset_Timer = 8
 
     width = 720
     height = 480
@@ -38,18 +42,16 @@ def known_Greeting():
     cam1 = cv2.VideoCapture(camSet1)
 
     def countdown():
-    	global reset_Timer
-    	while reset_Timer > 0:
-        	print('T-minus', reset_Timer)
-        	time.sleep(1)
-        	reset_Timer -= 1
+        global reset_Timer
+        while reset_Timer > 0:
+            print('T-minus', reset_Timer)
+            time.sleep(1)
+            reset_Timer -= 1
         
     count = threading.Thread(target=countdown)
     count.start()
-    print('111111111111111111111')
 
-    while reset_Timer>0:
-    
+    while reset_Timer > 0:
         _, frame0 = cam0.read()
         _, frame1 = cam1.read()
         frameSmall0 = cv2.resize(frame0,(0,0), fx=scaleFactor, fy=scaleFactor)#smaller scale will faster the detection but it needs bigger face to reconize it.
@@ -64,12 +66,10 @@ def known_Greeting():
         for (top, right, bottom, left), face_encoding0 in zip(facePositions0, allEncodings0):
             name1 = 'Unknown'
             reset_Timer = 8
-            print('222222222222222222')
             matches = face_recognition.compare_faces(Encodings, face_encoding0)
             if True in matches:
                 first_match_index = matches.index(True)
-                name1 = Names[first_match_index]
-                    
+                name1 = Names[first_match_index]                    
         
             top = int(top/scaleFactor)
             right = int(right/scaleFactor)
@@ -77,7 +77,6 @@ def known_Greeting():
             left = int(left/scaleFactor)
             cv2.rectangle(frame0,(left, top),(right, bottom), (255,0,0), 2)
             cv2.putText(frame0, name1, (left, top+0), font, .75, (0,0,255), 2 )
-        
 
             objY = abs(left+right)/2
             errorY = objY - width/2
@@ -85,8 +84,7 @@ def known_Greeting():
             print(left)
             print(right)
             print(errorY)
-            
-                     
+     
             if errorY<-50:
                 ser.write(b'l')
                 print('llllllllllllllllll')
@@ -116,6 +114,7 @@ def known_Greeting():
 	
         if cv2.waitKey(1) == ord('q'):
             break
-    
+    print('Quit')
     both_Cam.release()
     cv2.destroyAllWindows()
+    
