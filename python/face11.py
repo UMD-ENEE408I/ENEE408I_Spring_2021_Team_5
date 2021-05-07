@@ -43,7 +43,6 @@ def known_Greeting():
         	print('T-minus', reset_Timer)
         	time.sleep(1)
         	reset_Timer -= 1
-    countdown()
         
     count = threading.Thread(target=countdown)
     count.start()
