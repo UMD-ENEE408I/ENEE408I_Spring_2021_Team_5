@@ -37,15 +37,15 @@ def known_Greeting():
     cam0 = cv2.VideoCapture(camSet0)
     cam1 = cv2.VideoCapture(camSet1)
 
-    #def countdown():
-    global reset_Timer
-    while reset_Timer > 0:
-        print('T-minus', reset_Timer)
-        time.sleep(1)
-        reset_Timer -= 1
+    def countdown():
+    	global reset_Timer
+    	while reset_Timer > 0:
+        	print('T-minus', reset_Timer)
+        	time.sleep(1)
+        	reset_Timer -= 1
         
-    #count = threading.Thread(target=countdown)
-    #count.start()
+    count = threading.Thread(target=countdown)
+    count.start()
     print('111111111111111111111')
 
     while reset_Timer>0:
