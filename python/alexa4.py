@@ -6,17 +6,16 @@ import threading
 import os
 import take_picture4
 import face11
-#import face12
+import face12
 app = Flask(__name__)
 ask = Ask(app, '/')
-
 ser = serial.Serial('/dev/ttyUSB0')
 
 def take_Pic():
     time.sleep(3)
     take_picture4.selfie()
     
-def knownGreeting():
+def knownGreet():
     face11.known_Greeting()
     
 def unknownGreeting():
@@ -61,11 +60,10 @@ def take_a_picture():
     
 @ask.intent('Greeting')
 def greet_Known():
-    kgreet = threading.Thread(target=knownGreeting)
+    kgreet = threading.Thread(target=knownGreet)
     kgreet.start()
-    time.sleep(8)
-    speech_text = 'Hello {}, how are you? I am Lian autonomous robot. It is my pleasure to meet you'.format(name2)
-    #speech_text = 'Please say your name'
+    time.sleep(3)
+    speech_text = 'Hello, how are you? I am Lian autonomous robot. It is my pleasure to meet you'
     return statement(speech_text).simple_card('My Robot', speech_text)
     
 @ask.intent('Finding')
