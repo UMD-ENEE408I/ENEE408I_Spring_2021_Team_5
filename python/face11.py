@@ -8,17 +8,19 @@ import os
 import time
 import serial
 import threading
-#reset_Timer = 8
 
-# def countdown():
-#     global reset_Timer
-#     while reset_Timer > 0:
-#         print('T-minus', reset_Timer)
-#         time.sleep(1)
-#         reset_Timer -= 1
+class countdown(threading.Thread):
+    def __init__(self):
+        threading.Thread.__init__(self)
+        self.reset_Timer=10
+    def run(self):
+        while self.reset_Timer > 0:
+            print('T-minus', self.reset_Timer)
+            time.sleep(1)
+            self.reset_Timer -= 1    
+
 
 def known_Greeting():
-    reset_Timer = 8
     ser = serial.Serial('/dev/ttyUSB0')
     timeMark = time.time()
     dtFIL = 0
@@ -41,17 +43,10 @@ def known_Greeting():
     cam0 = cv2.VideoCapture(camSet0)
     cam1 = cv2.VideoCapture(camSet1)
 
-    def countdown():
-        global reset_Timer
-        while reset_Timer > 0:
-            print('T-minus', reset_Timer)
-            time.sleep(1)
-            reset_Timer -= 1
-        
-    count = threading.Thread(target=countdown)
+    count = countdown()
     count.start()
 
-    while reset_Timer > 0:
+    while count.reset_Timer > 0:
         _, frame0 = cam0.read()
         _, frame1 = cam1.read()
         frameSmall0 = cv2.resize(frame0,(0,0), fx=scaleFactor, fy=scaleFactor)#smaller scale will faster the detection but it needs bigger face to reconize it.
@@ -65,7 +60,7 @@ def known_Greeting():
     
         for (top, right, bottom, left), face_encoding0 in zip(facePositions0, allEncodings0):
             name1 = 'Unknown'
-            reset_Timer = 8
+            count.reset_Timer = 8
             matches = face_recognition.compare_faces(Encodings, face_encoding0)
             if True in matches:
                 first_match_index = matches.index(True)
@@ -115,6 +110,7 @@ def known_Greeting():
         if cv2.waitKey(1) == ord('q'):
             break
     print('Quit')
-    both_Cam.release()
+    cam0.release()
+    cam1.release()
     cv2.destroyAllWindows()
     
