@@ -18,7 +18,7 @@ def selfie():
     image_dir = initial + "/Image"
     width = 720
     height = 480
-    flip = 2
+    flip = 0
     #print('line14')
     camSet1 = 'nvarguscamerasrc sensor-id=0 ee-mode=2 ee-strength=0 tnr-mode=2 tnr-strength=1 wbmode=3 ! video/x-raw(memory:NVMM), width=3264, height=2464, framerate=21/1,format=NV12 ! nvvidconv flip-method='+str(flip)+' ! video/x-raw, width='+str(width)+', height='+str(height)+', format=BGRx ! videoconvert ! video/x-raw, format=BGR ! videobalance contrast=1.5 saturation=1.2 ! appsink drop=True'	
     cam1 = cv2.VideoCapture(camSet1)
