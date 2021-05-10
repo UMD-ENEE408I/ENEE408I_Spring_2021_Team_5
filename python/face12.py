@@ -11,7 +11,7 @@ print(cv2.__version__)
 class countdown(threading.Thread):
     def __init__(self):
         threading.Thread.__init__(self)
-        self.reset_Timer=8
+        self.reset_Timer=5
     def run(self):
         while self.reset_Timer > 0:
             print('T-minus', self.reset_Timer)
@@ -23,7 +23,7 @@ def unknown_Greeting():
     timeMark = time.time()
     dtFIL = 0
     scaleFactor = .5
-    reset_Timer = 10
+
     width = 720
     height = 480
     flip = 0
@@ -56,7 +56,7 @@ def unknown_Greeting():
     
         for (top, right, bottom, left), face_encoding0 in zip(facePositions0, allEncodings0):
             name1 = 'Unknown'
-            count.reset_Timer = 8
+            count.reset_Timer = 5
             matches = face_recognition.compare_faces(Encodings, face_encoding0)
             if True in matches:
                 first_match_index = matches.index(True)
