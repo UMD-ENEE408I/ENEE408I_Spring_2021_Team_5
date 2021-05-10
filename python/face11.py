@@ -116,6 +116,7 @@ def known_Greeting():
         if cv2.waitKey(1) == ord('q'):
             break
     print('Quit')
-    cam0.release()
-    cam1.release()
+    #cam0.release()
+    #cam1.release()
+    both_Cam.release()
     cv2.destroyAllWindows()   
