@@ -112,6 +112,4 @@ def known_Greeting():
     print('Quit')
     cam0.release()
     cam1.release()
-    cv2.destroyAllWindows()
-    break
-    
+    cv2.destroyAllWindows()   
