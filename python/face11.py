@@ -73,7 +73,7 @@ def known_Greeting():
             cv2.rectangle(frame0,(left, top),(right, bottom), (255,0,0), 2)
             cv2.putText(frame0, name1, (left, top+0), font, .75, (0,0,255), 2 )
 	
-            if name1 == Names[first_match_index]:
+            if True in matches:
                 objY = abs(left+right)/2
                 errorY = objY - width/2
 
@@ -117,7 +117,6 @@ def known_Greeting():
         if cv2.waitKey(1) == ord('q'):
             break
     print('Quit')
-    #cam0.release()
-    #cam1.release()
-    both_Cam.release()
+    cam0.release()
+    cam1.release()
     cv2.destroyAllWindows()   
