@@ -76,7 +76,7 @@ def unknown_Greeting():
 
                 print(left)
                 print(right)
-		print(top)
+                print(top)
                 print(errorY)
 		
             if top < 30:
