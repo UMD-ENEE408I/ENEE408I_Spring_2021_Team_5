@@ -113,4 +113,5 @@ def known_Greeting():
     cam0.release()
     cam1.release()
     cv2.destroyAllWindows()
+    break
     
