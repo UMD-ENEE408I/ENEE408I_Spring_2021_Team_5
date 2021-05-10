@@ -42,8 +42,8 @@ def selfie():
                 print('Enter Your Speech:')
                 r.adjust_for_ambient_noise(source, duration = 0.2)
                 #r.adjust_for_ambient_noise(source)
-                audio = r.listen(source)
-                #audio = r.listen(source, phrase_time_limit=3)
+                #audio = r.listen(source)
+                audio = r.listen(source, phrase_time_limit=3)
     
                 try:
                     unknown_Names = r.recognize_google(audio)
@@ -82,6 +82,3 @@ def selfie():
     os.system("git status")
     os.system("git commit -m train")
     os.system("git push")
-
-
-        
