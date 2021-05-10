@@ -76,11 +76,17 @@ def known_Greeting():
             objY = abs(left+right)/2
             errorY = objY - width/2
 
+            print(top)
             print(left)
             print(right)
             print(errorY)
+
+            if top < 150:
+                ser.write(b's')
+                print('tttttttttttttt')
+                break
      
-            if errorY<-50:
+            elif errorY<-50:
                 ser.write(b'l')
                 print('llllllllllllllllll')
                 break
