@@ -79,9 +79,11 @@ def unknown_Greeting():
                 print(top)
                 print(errorY)
 		
-            if top < 30:
+            if top < 150:
                 ser.write(b's')
                 print('tttttttttttttt')
+                break
+		
             if errorY<-50:
                 ser.write(b'l')
                 print('llllllllllllllllll')
