@@ -80,8 +80,8 @@ def unknown_Greeting():
                 print(errorY)
 		
             if top < 30:
-		ser.write(b's')
-		print('tttttttttttttt')
+		        ser.write(b's')
+		        print('tttttttttttttt')
             if errorY<-50:
                 ser.write(b'l')
                 print('llllllllllllllllll')
