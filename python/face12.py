@@ -1,118 +1,98 @@
-import cv2
-import numpy as np
-import face_recognition
-import pickle
-import os
+from flask import Flask, request
+from flask_ask import Ask, statement, question
 import time
-import threading
 import serial
-print(cv2.__version__)
+import threading
+import os
+import take_picture4
+import face11
+import face12
+app = Flask(__name__)
+ask = Ask(app, '/')
+ser = serial.Serial('/dev/ttyUSB0')
 
-class countdown(threading.Thread):
-    def __init__(self):
-        threading.Thread.__init__(self)
-        self.reset_Timer=5
-    def run(self):
-        while self.reset_Timer > 0:
-            print('T-minus', self.reset_Timer)
-            time.sleep(1)
-            self.reset_Timer -= 1 
-
-def unknown_Greeting():
-    ser = serial.Serial('/dev/ttyUSB0')
-    timeMark = time.time()
-    dtFIL = 0
-    scaleFactor = .5
-
-    width = 720
-    height = 480
-    flip = 0
-    font = cv2.FONT_HERSHEY_SIMPLEX
-
-    Encodings = []
-    Names = []
-    with open('train.pkl', 'rb') as f:
-        Names = pickle.load(f)
-        Encodings = pickle.load(f)
+def take_Pic():
+    time.sleep(3)
+    take_picture4.selfie()
     
-
-    camSet0 = 'nvarguscamerasrc sensor-id=1 ee-mode=2 ee-strength=0 tnr-mode=2 tnr-strength=1 wbmode=3 ! video/x-raw(memory:NVMM), width=3264, height=2464, framerate=21/1,format=NV12 ! nvvidconv flip-method='+str(flip)+' ! video/x-raw, width='+str(width)+', height='+str(height)+', format=BGRx ! videoconvert ! video/x-raw, format=BGR ! videobalance contrast=1.5 saturation=1.2 ! appsink drop=True'
-    camSet1 = 'nvarguscamerasrc sensor-id=0 ee-mode=2 ee-strength=0 tnr-mode=2 tnr-strength=1 wbmode=3 ! video/x-raw(memory:NVMM), width=3264, height=2464, framerate=21/1,format=NV12 ! nvvidconv flip-method='+str(flip)+' ! video/x-raw, width='+str(width)+', height='+str(height)+', format=BGRx ! videoconvert ! video/x-raw, format=BGR ! videobalance contrast=1.5 saturation=1.2 ! appsink drop=True'
-	
-    cam0 = cv2.VideoCapture(camSet0)
-    cam1 = cv2.VideoCapture(camSet1)
-
-    count = countdown()
-    count.start()
-
-    while count.reset_Timer>0:
-        _, frame0 = cam0.read()
-        _, frame1 = cam1.read()
-        frameSmall0 = cv2.resize(frame0,(0,0), fx=scaleFactor, fy=scaleFactor)#smaller scale will faster the detection but it needs bigger face to reconize it.
-        
-        facePositions0 = face_recognition.face_locations(frameSmall0)
-        allEncodings0 = face_recognition.face_encodings(frameSmall0, facePositions0)
-
+def knownGreet():
+    face11.known_Greeting()
     
-        for (top, right, bottom, left), face_encoding0 in zip(facePositions0, allEncodings0):
-            name1 = 'Unknown'
-            count.reset_Timer = 5
-            matches = face_recognition.compare_faces(Encodings, face_encoding0)
-            if True in matches:
-                first_match_index = matches.index(True)
-                name1 = Names[first_match_index]
-                    
-            top = int(top/scaleFactor)
-            right = int(right/scaleFactor)
-            bottom = int(bottom/scaleFactor)
-            left = int(left/scaleFactor)
-            cv2.rectangle(frame0,(left, top),(right, bottom), (255,0,0), 2)
-            cv2.putText(frame0, name1, (left, top+0), font, .75, (0,0,255), 2 )
-        
-            if name1 == 'Unknown':
-                objY = abs(left+right)/2
-                errorY = objY - width/2
-		
+def unknownGreeting():
+    face12.unknown_Greeting()
 
-                print(left)
-                print(right)
-                print(top)
-                print(errorY)
-		
-            if top < 30:
-                ser.write(b's')
-                print('tttttttttttttt')
-            if errorY<-50:
-                ser.write(b'l')
-                print('llllllllllllllllll')
-                break
+@ask.launch
+def test_skill():
+    msg = 'Hi Lian, Bibbadi bibbadi boo'
+    return statement(msg)
 
-            elif errorY>50:
-                ser.write(b'r')
-                print('rrrrrrrrrrrrrrrrrrrr')
-                break
-                
-            else:
-                ser.write(b'f')
-                print('middleeeeeeeeeeeeeeeee')
-                break
-            
-        
-        frame3 = np.hstack((frame0, frame1))
-        dt = time.time()-timeMark
-        fps = 1/dt
-        timeMark = time.time()
-        dtFIL = 0.9*dtFIL + 0.1*fps       # Low-pass filter
-        ### To show fps on the background      redcolor  solid box
-        cv2.rectangle(frame3,(0,0), (150,40), (0,0,255), -1)
-        cv2.putText(frame3, 'fps: '+str(round(fps,1)), (0, 30), font, 1, (0, 255, 255), 2)
+@ask.intent('Wander')
+def wander():
+    ser.write(b'w')
+    speech_text = 'Wandering'
+    return statement(speech_text).simple_card('My Robot', speech_text)
+
+@ask.intent('Forward')
+def go_forward():
+    ser.write(b'f')
+    speech_text = 'Going forward'
+    return statement(speech_text).simple_card('My Robot', speech_text)
+
+@ask.intent('Backward')
+def go_forward():
+    ser.write(b'b')
+    speech_text = 'Going backward'
+    return statement(speech_text).simple_card('My Robot', speech_text)
+
+@ask.intent('Halt')
+def stop():
+    ser.write(b's')
+    speech_text = 'Stopping!'
+    return statement(speech_text).simple_card('My Robot', speech_text)
+   
+@ask.intent('Picture')
+def take_a_picture():
+    os.system("git pull")
+    speech_text = 'Please say your name and please get closer to the camera for clear picture'
+    snap_pic = threading.Thread(target=take_Pic)
+    snap_pic.start()
+    return statement(speech_text).simple_card('My Robot', speech_text)
     
-        cv2.imshow('both_Cam',frame3)
-        cv2.moveWindow('both_Cam',200,0)
-	
-        if cv2.waitKey(1) == ord('q'):
-            break
-	
-    cam0.release()
-    cam1.release()
-    cv2.destroyAllWindows()
+@ask.intent('Greeting')
+def greet_Known():
+    kgreet = threading.Thread(target=knownGreet)
+    kgreet.start()
+    time.sleep(3)
+    speech_text = 'Hello, how are you? I am Lian autonomous robot. It is my pleasure to meet you'
+    return statement(speech_text).simple_card('My Robot', speech_text)
+    
+@ask.intent('Finding')
+def greet_unKnown():
+    os.system("git pull")
+    ugreet = threading.Thread(target=unknownGreeting)
+    ugreet.start()
+    time.sleep(8)
+    speech_text = 'Hello! Can I take a picture of you?'
+    return question(speech_text).simple_card('My Robot', speech_text)
+    
+@ask.intent('YesIntent')
+def yes_Intent():
+    os.system("git pull")
+    speech_text = 'Please say your name and please get closer to the camera for clear picture'
+    snap_pic = threading.Thread(target=take_Pic)
+    snap_pic.start()
+    return statement(speech_text).simple_card('My Robot', speech_text)
+    
+@ask.intent('NoIntent')
+def no_Intent():
+    speech_text = 'Thank you for your answer. It is my pleasure to talk with you. See you around'
+    return statement(speech_text).simple_card('My Robot', speech_text)
+
+@ask.intent('Update')
+def update_Intent():
+    os.system("git pull")
+    speech_text = 'Your robot is updated.'
+    return statement(speech_text).simple_card('My Robot', speech_text)
+
+if __name__ == '__main__':
+    app.run(port=8005, debug=False)
