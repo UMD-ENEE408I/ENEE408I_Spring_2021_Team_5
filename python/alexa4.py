@@ -23,7 +23,7 @@ def unknownGreeting():
 
 @ask.launch
 def test_skill():
-    msg = 'Hi Lian, Bibbadi bibbadi boo'
+    msg = 'Hello team five lets get this presentation started'
     return statement(msg)
 
 @ask.intent('Wander')
@@ -62,8 +62,8 @@ def take_a_picture():
 def greet_Known():
     kgreet = threading.Thread(target=knownGreet)
     kgreet.start()
-    time.sleep(3)
-    speech_text = 'Hello, how are you? I am Lian autonomous robot. It is my pleasure to meet you'
+    time.sleep(5)
+    speech_text = 'Hello, how are you? I am team fives autonomous robot. It is great to see you again'
     return statement(speech_text).simple_card('My Robot', speech_text)
     
 @ask.intent('Finding')
