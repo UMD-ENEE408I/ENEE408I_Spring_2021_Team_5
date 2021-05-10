@@ -108,5 +108,6 @@ def unknown_Greeting():
         if cv2.waitKey(1) == ord('q'):
             break
 	
-    both_Cam.release()
+    cam0.release()
+    cam1.release()
     cv2.destroyAllWindows()
