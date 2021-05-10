@@ -72,6 +72,7 @@ def known_Greeting():
             left = int(left/scaleFactor)
             cv2.rectangle(frame0,(left, top),(right, bottom), (255,0,0), 2)
             cv2.putText(frame0, name1, (left, top+0), font, .75, (0,0,255), 2 )
+	
             if name1 == Names[first_match_index]:
                 objY = abs(left+right)/2
                 errorY = objY - width/2
@@ -86,7 +87,7 @@ def known_Greeting():
                 print('tttttttttttttt')
                 break
      
-            elif errorY<-50:
+            if errorY<-50:
                 ser.write(b'l')
                 print('llllllllllllllllll')
                 break
