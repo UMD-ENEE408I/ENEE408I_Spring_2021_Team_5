@@ -72,11 +72,16 @@ def unknown_Greeting():
             if name1 == 'Unknown':
                 objY = abs(left+right)/2
                 errorY = objY - width/2
+		
 
                 print(left)
                 print(right)
+		print(top)
                 print(errorY)
-                     
+		
+            if top < 30:
+		ser.write(b's')
+		print('tttttttttttttt')
             if errorY<-50:
                 ser.write(b'l')
                 print('llllllllllllllllll')
