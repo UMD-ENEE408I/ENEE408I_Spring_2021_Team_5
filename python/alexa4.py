@@ -60,6 +60,7 @@ def take_a_picture():
     
 @ask.intent('Greeting')
 def greet_Known():
+    os.system("git pull")
     kgreet = threading.Thread(target=knownGreet)
     kgreet.start()
     time.sleep(5)
