@@ -24,7 +24,7 @@ def known_Greeting():
     ser = serial.Serial('/dev/ttyUSB0')
     timeMark = time.time()
     dtFIL = 0
-    scaleFactor = .5
+    scaleFactor = .8
 
     width = 720
     height = 480
